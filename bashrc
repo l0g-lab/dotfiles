@@ -9,13 +9,6 @@ complete -cf man
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-alias pac='pacaur -Ss'
-alias pacup='pacaur -Syu'
-alias pacout='pacaur -Rns'
-alias pacin='pacaur -S'
-alias paclean='pacaur -Scc'
-alias pacopti='sudo pacman-optimize'
-
 #-----------------------
 # Greeting, motd etc...
 #-----------------------
@@ -30,7 +23,6 @@ export GREP_COLOR="1;33"
 export EDITOR="vim"
 
 ### Aliases ###
-alias startrigctl="rigctld -r /dev/ttyUSB0 -m 373 -s 115200"
 alias more="less"
 alias ll="ls -l"
 alias la="ls -al"
