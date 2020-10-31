@@ -73,4 +73,4 @@ session.forcePseudoTransparency:	false
 session.tabPadding:	0
 session.styleOverlay:	~/.fluxbox/overlay
 session.autoRaiseDelay:	250
-session.styleFile:	/home/l0g/.fluxbox/styles/l0g
+session.styleFile:	~/.fluxbox/styles/l0g
