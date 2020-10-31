@@ -30,7 +30,6 @@
         [exec] (PulseAudio Volume Control) {pavucontrol}
         [exec] (Qt V4L2 test Utility) {qv4l2}
         [exec] (Qt V4L2 video capture utility) {qvidcap}
-        [exec] (Rhythmbox) {rhythmbox}
         [exec] (VLC media player) {vlc}
         [exec] (VLC media player) {qvlc}
         [exec] (Volume Icon) {volumeicon}
@@ -111,7 +110,6 @@
         [exec] (Htop) {aterm -e htop}
         [exec] (KeePassXC) {keepassxc}
         [exec] (Log Out) {xfce4-session-logout}
-        [exec] (LSHW) {gtk-lshw}
         [exec] (Psensor) {psensor}
         [exec] (pstree) {aterm -e pstree.x11}
         [exec] (pstree) {aterm -e pstree}

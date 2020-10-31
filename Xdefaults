@@ -66,8 +66,7 @@
 ! URxvt*pointerColor2:                  color
 ! URxvt*borderColor:                    color
 ! URxvt*iconFile:                       file
- URxvt*font:                           xft:xos4 terminus:size=16
-! URxvt*font:                           xft:anonymous pro:style=regular:size=20
+ URxvt*font:                           xft:anonymous pro:style=regular:size=14
 ! URxvt*italicFont:                     fontname
 ! URxvt*boldItalicFont:                 fontname
 ! URxvt*intensityStyles:                boolean
@@ -128,3 +127,4 @@
 ! URxvt*tabbar-bg:                      colour
 ! URxvt*tabbar-fg:                      colour
 ! URxvt*url-launcher:                   chromium --incognito
+URxvt*colorUL:				#6699ff
