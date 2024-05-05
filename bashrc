@@ -1,3 +1,4 @@
+#!/bin/bash
 #
 # ~/.bashrc
 #
@@ -12,10 +13,11 @@ complete -cf man
 #-----------------------
 # Greeting, motd etc...
 #-----------------------
-date 
+cowsay $(fortune)
+#date 
 [ -z "$PS1" ] && return
 
-PATH=$PATH:$HOME/bin/
+PATH=$PATH:$HOME/.local/bin
 
 PS1='\[\033[01;32m\][\u@\h\[\033[01;37m\] \W\[\033[01;32m\]]\$\[\033[00m\] '
 
