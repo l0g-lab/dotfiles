@@ -18,8 +18,8 @@ set $mod Mod4
 # clear in small sizes. However, if you need a lot of unicode glyphs or
 # right-to-left text rendering, you should instead use pango for rendering and
 # chose a FreeType font, such as:
-font xft:Terminus:size=14
-
+font xft:Terminus 12
+#font xft:Anonymous Pro 12
 
 # Custom Config
 popup_during_fullscreen smart
@@ -27,23 +27,24 @@ default_orientation horizontal
 bindsym $mod+Tab focus down
 
 # Bind Aliases
-#bindsym $mod+Shift+b exec firefox --private-window
-bindsym $mod+Shift+b exec iceweasel --private-window
-bindsym $mod+Shift+f exec pcmanfm
-bindsym $mod+Shift+m exec sonata
-bindsym $mod+Shift+x exec hexchat
+bindsym $mod+Shift+b exec firefox --private-window
+bindsym $mod+Shift+f exec thunar
+#bindsym $mod+Shift+s exec $HOME/.local/bin/screenpen
+bindsym $mod+Shift+s exec $HOME/.local/bin/screenshoot
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec urxvt
+#bindsym $mod+Return exec xfce4-terminal
+bindsym $mod+Return exec i3-sensible-terminal
 
 # kill focused window
 bindsym $mod+Shift+c kill
 
 # start dmenu (a program launcher)
-bindsym $mod+p exec dmenu_run -fn 'xft:Terminus:size=14'
+bindsym $mod+p exec dmenu_run -fn 'Terminus:size=12'
+#bindsym $mod+p exec dmenu_run -fn 'xft:Anonymous Pro:size=12'
 #bindsym $mod+p exec rofi
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
@@ -165,27 +166,32 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 # Backlight control with xbacklight - XF86MonBrightnessUp and XF86MonBrightnessDown
-bindsym XF86MonBrightnessUp exec xbacklight -inc 10
-bindsym XF86MonBrightnessDown exec xbacklight -dec 10
+#bindsym XF86MonBrightnessUp exec xbacklight -inc 10
+#bindsym XF86MonBrightnessDown exec xbacklight -dec 10
 
 # Volume control with amixer
-bindsym XF86AudioRaiseVolume exec "amixer -c 0 sset 'Master',0 3dB+"
-bindsym XF86AudioLowerVolume exec "amixer -c 0 sset 'Master',0 3dB-"
-bindsym XF86AudioMute exec amixer set Master toggle
+#bindsym XF86AudioRaiseVolume exec "amixer -c 0 sset 'Master',0 3dB+"
+#bindsym XF86AudioLowerVolume exec "amixer -c 0 sset 'Master',0 3dB-"
+#bindsym XF86AudioMute exec amixer set Master toggle
+
+# Configure i3wm colors
+
+client.focused		#F39C12 #000000 #bbbbbb
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-    #status_command 	i3status -c ~/.i3/i3status.conf
     status_command      $HOME/.config/i3/i3conky.sh
-    font xft:Terminus:size=16
+    #font 		xft:Anonymous Pro 12
+    font 		xft:Terminus 12
     position		top
-	workspace_buttons	yes
-	mode			dock
-	colors {
-		separator #6495ed
-		statusline #ADD8E6
-	}
+    workspace_buttons	yes
+    mode		dock
+    colors {
+			separator #EBA72C
+			statusline #ADD8E6
+			focused_workspace #EBA72C #000000 #bbbbbb
+    }
 }
 
 exec --no-startup-id sh ~/.config/i3/startup
