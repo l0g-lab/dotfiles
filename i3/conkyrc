@@ -35,22 +35,20 @@ conky.config = {
 conky.text = [[
 
   ## Network Info
-  [{"full_text" : "WLAN :▲ [${upspeed wlan0}] " , "color" : "\#00ff00"},
-   {"full_text" : "▼ [${downspeed wlan0}] " , "color" : "\#00ff00"},
-
-   {"full_text" : "LAN: ▲ [${upspeed eth0}] ", "color" : "\#ff0000"},
-   {"full_text" : "▼ [${downspeed eth0}] " , "color" : "\#ff0000"},
+  [{"full_text" : "WLAN:▲[${upspeed wlan0}]▼[${downspeed wlan0}]" , "color" : "\#00ff00"},
+   {"full_text" : "LAN:▲[${upspeed eth0}]▼[${downspeed eth0}]" , "color" : "\#ff0000"},
 
   ## VPN Status
-   {"full_text" : "VPN: ${if_up tun0}UP${else}DOWN$endif " , "color" : "\#00fff2"},
+   {"full_text" : "WG-VPN: ${if_up wg0-mullvad}UP${else}DOWN$endif" , "color" : "\#00fff2"},
+   {"full_text" : "O-VPN: ${if_up tun0}UP${else}DOWN$endif" , "color" : "\#00fff2"},
 
   ## CPU Info
-   {"full_text" : "CPU:${cpu 0}% " , "color" : "\#e33a6e"},
-   #{"full_text" : "TEMP:${hwmon 0 temp 1}C " , "color" : "\#e33a6e"},
-   { "full_text" : "LOAD: ${loadavg 1 2 3}" , "color" : "\#A4DDED"},
+   {"full_text" : "CPU:${cpu 0}%" , "color" : "\#e33a6e"},
+   {"full_text" : "TEMP:${hwmon 0 temp 1}C" , "color" : "\#e33a6e"},
+   {"full_text" : "LOAD: ${loadavg 1 2 3}" , "color" : "\#A4DDED"},
 
   ## RAM Info
-   {"full_text" : "MEM:${mem} " , "color" : "\#e0da37"},
+   {"full_text" : "MEM:${mem}" , "color" : "\#e0da37"},
 
   ## HDD Disk IO
    {"full_text" : "$diskio_read :Read $diskio_write :Write" , "color" : "\#ff00ff"},
@@ -60,16 +58,16 @@ conky.text = [[
   #{"full_text" : "/home: U:${fs_used /home} F:${fs_free /home}]" , "color" : "\#80d9d8"},
 
   ## Battery Percentage
-   #{"full_text" : "BAT:${battery_percent BAT1}% ", "color" : "\#ffaf5f"},
+   {"full_text" : "BAT:${battery_percent BAT0}%", "color" : "\#ffaf5f"},
 
   ## Running Processes
   #{ "full_text" : "ps${running_processes} /${processes}" , "color" : "\#A4DDED"},
   
   ## Date
-   {"full_text" : "${time %B %d %Y} " , "color" : "\#eca4c4"},
+   {"full_text" : "${time %B %d %Y}" , "color" : "\#eca4c4"},
 
   ## Time
-   {"full_text" : "${time %H:%M%P} EST" , "color" : "\#95fc7b"}
+   {"full_text" : "${time %H:%M:%S} EST" , "color" : "\#95fc7b"}
 
   ## UTC Time
   #{"full_text" : "${utime %H:%M%P} UTC" , "color" : "\#95fc7b"}
