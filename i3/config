@@ -18,7 +18,7 @@ set $mod Mod4
 # clear in small sizes. However, if you need a lot of unicode glyphs or
 # right-to-left text rendering, you should instead use pango for rendering and
 # chose a FreeType font, such as:
-font xft:Terminus 12
+font xft:Terminus 16
 #font xft:Anonymous Pro 12
 
 # Custom Config
@@ -29,47 +29,28 @@ bindsym $mod+Tab focus down
 # Bind Aliases
 bindsym $mod+Shift+b exec firefox --private-window
 bindsym $mod+Shift+f exec thunar
-#bindsym $mod+Shift+s exec $HOME/.local/bin/screenpen
 bindsym $mod+Shift+s exec $HOME/.local/bin/screenshoot
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 # start a terminal
-#bindsym $mod+Return exec xfce4-terminal
 bindsym $mod+Return exec i3-sensible-terminal
 
 # kill focused window
 bindsym $mod+Shift+c kill
 
 # start dmenu (a program launcher)
-bindsym $mod+p exec dmenu_run -fn 'Terminus:size=12'
+bindsym $mod+p exec dmenu_run -fn 'Terminus:size=16'
 #bindsym $mod+p exec dmenu_run -fn 'xft:Anonymous Pro:size=12'
-#bindsym $mod+p exec rofi
-# There also is the (new) i3-dmenu-desktop which only displays applications
-# shipping a .desktop file. It is a wrapper around dmenu, so you need that
-# installed.
-#bindsym $mod+p exec --no-startup-id i3-dmenu-desktop
 
 # change focus
-#bindsym $mod+h focus left
-#bindsym $mod+j focus down
-#bindsym $mod+k focus up
-#bindsym $mod+l focus right
-
-# alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-#bindsym $mod+Shift+h move left
-#bindsym $mod+Shift+j move down
-#bindsym $mod+Shift+k move up
-#bindsym $mod+Shift+l move right
-
-# alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
@@ -146,7 +127,6 @@ bindsym $mod+Shift+q exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 # resize window (you can also use the mouse for that)
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
-
         bindsym j resize shrink width 10 px or 10 ppt
         bindsym k resize grow height 10 px or 10 ppt
         bindsym l resize shrink height 10 px or 10 ppt
@@ -163,6 +143,9 @@ mode "resize" {
         bindsym Escape mode "default"
 }
 
+# Window configs
+for_window [class="pavucontrol"] floating enable
+
 bindsym $mod+r mode "resize"
 
 # Backlight control with xbacklight - XF86MonBrightnessUp and XF86MonBrightnessDown
@@ -176,21 +159,24 @@ bindsym $mod+r mode "resize"
 
 # Configure i3wm colors
 
-client.focused		#F39C12 #000000 #bbbbbb
+#client.focused		#F39C12 #000000 #bbbbbb
+client.focused		#00FF00 #000000 #bbbbbb
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
     status_command      $HOME/.config/i3/i3conky.sh
     #font 		xft:Anonymous Pro 12
-    font 		xft:Terminus 12
+    font 		xft:Terminus 16
     position		top
     workspace_buttons	yes
     mode		dock
     colors {
-			separator #EBA72C
+			#separator #EBA72C
+			separator #00FF00
 			statusline #ADD8E6
-			focused_workspace #EBA72C #000000 #bbbbbb
+			#focused_workspace #EBA72C #000000 #bbbbbb
+			focused_workspace #00FF00 #000000 #bbbbbb
     }
 }
 

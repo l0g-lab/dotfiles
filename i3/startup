@@ -1,6 +1,6 @@
-volumeicon &
-xfce4-power-manager &
 nm-applet &
-nitrogen --restore &
+volumeicon &
 xset r rate 185 50 &
 xscreensaver --no-splash &
+xfce4-power-manager &
+nitrogen --restore &
