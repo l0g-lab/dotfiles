@@ -1,0 +1,10 @@
+#!/bin/bash
+# returns a list of the largest files on disk (top 5 unless arg1 set)
+
+if [ -n "${1}" ]; then
+    limit="${1}"
+else
+    limit=5
+fi
+
+find / -type f -exec du -ha {} + -print 2>/dev/null | sort -nr | head -n "${limit}"

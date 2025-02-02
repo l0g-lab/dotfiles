@@ -1,0 +1,18 @@
+#!/bin/bash
+# website speed tests (response time analytics)
+
+if [ -z "$1" ]; then
+  echo "usage: webspeed <webpage uri>"
+  exit 1
+fi
+
+curl -s -w \
+'report: %{url_effective}\n
+lookup time:\t\t%{time_namelookup}
+connect time:\t\t%{time_connect}
+appcon time:\t\t%{time_appconnect}
+redirect time:\t\t%{time_redirect}
+pre-transfer time:\t%{time_pretransfer}
+start-transfer time:\t%{time_starttransfer}\n
+total time:\t\t%{time_total}\n' \
+-o /dev/null ${1}

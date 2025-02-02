@@ -1,0 +1,4 @@
+#!/bin/bash
+# shows running service network interaction (listening ports)
+
+sudo lsof -iTCP -sTCP:LISTEN -n -P

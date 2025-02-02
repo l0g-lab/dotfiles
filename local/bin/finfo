@@ -1,0 +1,32 @@
+#!/bin/bash
+# returns useful file information & hashes
+
+if [[ -z "${1}" ]]; then
+  echo "usage: finfo <file>"
+  exit 1
+fi
+
+if [[ ! -f "${1}" ]]; then
+  echo "error: ${1} is not a file! ("$(file -b "${1}")")"
+  exit 1
+fi
+
+perminfo=$(stat "${1}" | grep Uid)
+sha1sig=$(sha1sum "${1}" | awk '{print $1}')
+sha2sig=$(sha256sum "${1}" | awk '{print $1}')
+sha5sig=$(sha512sum "${1}" | awk '{print $1}')
+md5sig=$(md5sum "${1}" | awk '{print $1}')
+finfo=$(file "${1}" | sed -e 's/^.*: //')
+fsize=$(du -h "${1}" | awk '{print $1}')
+modifytz=$(stat "${1}" | grep Modify)
+createtz=$(stat "${1}" | grep Birth | sed 's/ //')
+
+echo "perms    | ${perminfo}"
+echo "info     | ${finfo}"
+echo "size     | ${fsize}"
+echo "modified | ${modifytz}"
+echo "created  | ${createtz}"
+echo "sha1     | ${sha1sig}"
+echo "sha256   | ${sha2sig}"
+echo "sha512   | ${sha5sig}"
+echo "md5      | ${md5sig}"
