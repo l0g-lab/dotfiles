@@ -76,6 +76,18 @@ else
 	echo "Invalid input, skipping..."
 fi
 
+# Moving vim config into place
+read -p "Install vim config? (y/n): " response
+if [[ "$response" == "y" ]]; then
+	cp -r ~/.vimrc ~/.vimrc.bak
+	cp -rf vimrc ~/.vimrc
+	echo "setup complete:	vim config"
+elif [[ "$response" == "n" ]]; then
+	echo "Skipping..."
+else
+	echo "Invalid input, skipping..."
+fi
+
 # Move local scripts into place
 read -p "Install local scripts? (y/n): " response
 if [[ "$response" == "y" ]]; then
