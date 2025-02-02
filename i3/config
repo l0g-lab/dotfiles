@@ -29,7 +29,8 @@ bindsym $mod+Tab focus down
 # Bind Aliases
 bindsym $mod+Shift+b exec firefox --private-window
 bindsym $mod+Shift+f exec thunar
-bindsym $mod+Shift+s exec $HOME/.local/bin/screenshoot
+#bindsym $mod+Shift+s exec $HOME/.local/bin/screenshoot
+bindsym $mod+Shift+s exec flameshot gui
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
