@@ -2,41 +2,7 @@
 #
 # This script will put the dotfiles into place
 set -e
-
-# Check distro and install packages
-## Get package list
-PACKAGES=$(cat ./i3/startup | awk '{ print $1 }')
-
 echo "====== dotfiles installer script ======"
-
-## Install packages
-read -p "Try to install packages? (y/n): " response
-if [[ "$response" == "y" ]]; then
-	echo "Installing Packages"
-	if [[ -f /etc/os-release ]]; then
-	    . /etc/os-release
-	
-	    if [[ "$ID" == "ubuntu" || "$ID" == "debian" ]]; then
-	        echo "Detected Ubuntu/Debian"
-	        sudo apt update
-			sudo apt install -y $PACKAGES
-	    elif [[ "$ID" == "fedora" ]]; then
-	        echo "Detected Fedora"
-	        sudo dnf install -y $PACKAGES
-	    elif [[ "$ID" == "arch" ]]; then
-	        echo "Detected Arch"
-	        sudo pacman -S --noconfirm $PACKAGES
-	    else
-	        echo "Unsupported distribution: $ID. Will need to manually install packages listed in ~/.local/config/i3/startup"
-	    fi
-	else
-	    echo "Could not detect the distribution. Will need to manually install packages listed in ~/.local/config/i3/startup"
-	fi
-elif [[ "$response" == "n" ]]; then
-	echo "Skipping..."
-else
-	echo "Invalid input, skipping..."
-fi
 
 # Moving bashrc into place
 read -p "Install bashrc? (y/n): " response
