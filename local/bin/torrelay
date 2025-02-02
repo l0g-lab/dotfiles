@@ -1,0 +1,10 @@
+#!/bin/bash
+# return overview on tor bridges, exits & open relays for specified country code
+
+# curl --silent https://onionoo.torproject.org/details | jq -r '.relays[] | select(.country=="nz")'
+if [ -z "$1" ]; then
+	echo "usage: torrelay 'country_code'"
+	exit 1	
+curl -s https://onionoo.torproject.org/details \
+| jq '.relays[] | select(.country=="$1") | {nom: .nickname, print: .fingerprint, contact: .contact, asnom: .as_name, as: .as, lastseen: .last_seen, platform: .platform, exit: .exit_probability}' \
+| jq -s
