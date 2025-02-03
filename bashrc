@@ -13,7 +13,7 @@ complete -cf man
 #-----------------------
 # Greeting, motd etc...
 #-----------------------
-cowsay $(fortune)
+#cowsay $(fortune)
 #date 
 [ -z "$PS1" ] && return
 
