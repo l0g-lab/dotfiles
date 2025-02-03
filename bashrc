@@ -41,6 +41,7 @@ alias halt='sudo halt'
 alias mkdir='mkdir -p'
 alias which='type -all'
 alias path='echo -e ${PATH//:/\\n}'
+alias view='vim -R'
 
 # -> SCRIPTS
 
