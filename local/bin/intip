@@ -4,7 +4,7 @@
 # Run the 'ip a' command and process its output
 ip a | while read -r line; do
     # Check if the line contains an interface name (e.g., eth0, wlan0)
-    if [[ $line =~ ^[0-9]+:[[:space:]]([a-zA-Z0-9]+): ]]; then
+    if [[ $line =~ ^[0-9]+:[[:space:]]([a-zA-Z0-9-]+): ]]; then
         interface="${BASH_REMATCH[1]}"
     fi
 
