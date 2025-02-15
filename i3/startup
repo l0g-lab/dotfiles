@@ -1,0 +1,5 @@
+nm-applet &
+volumeicon &
+xscreensaver --no-splash &
+xfce4-power-manager &
+nitrogen --restore &

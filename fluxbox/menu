@@ -1,0 +1,159 @@
+[begin] (FluxBox)
+    [submenu] (Development)
+        [exec] (CMake) {cmake-gui}
+        [exec] (CMake curses GUI [ccmake]) {aterm -e ccmake}
+        [exec] (IDLE [Python IDE]) {idle}
+        [exec] (Python) {aterm -e python}
+        [exec] (Python [v2.7]) {aterm -e python2.7}
+        [exec] (Tclsh8.6) {aterm -e tclsh8.6}
+    [end]
+    [submenu] (Editors)
+        [exec] (AA Fire) {aterm -e aafire -driver slang}
+        [exec] (Mousepad) {mousepad}
+        [exec] (Vi) {aterm -e vi}
+        [exec] (Vim) {aterm -e vim}
+    [end]
+    [submenu] (Games)
+        [submenu] (Adventure)
+            [exec] (Sclient) {sclient}
+        [end]
+        [submenu] (Arcade)
+            [exec] (PacMan) {pacman}
+        [end]
+    [end]
+    [submenu] (Graphics)
+        [exec] (Image Viewer) {gpicview}
+        [exec] (LibreOffice Draw) {libreoffice --draw}
+    [end]
+    [submenu] (Multimedia)
+        [exec] (ALSA mixer) {aterm -e alsamixer}
+        [exec] (PulseAudio Volume Control) {pavucontrol}
+        [exec] (Qt V4L2 test Utility) {qv4l2}
+        [exec] (Qt V4L2 video capture utility) {qvidcap}
+        [exec] (Rhythmbox) {rhythmbox}
+        [exec] (VLC media player) {vlc}
+        [exec] (VLC media player) {qvlc}
+        [exec] (Volume Icon) {volumeicon}
+    [end]
+    [submenu] (Network)
+        [exec] (Avahi SSH Server Browser) {bssh}
+        [exec] (Avahi VNC Server Browser) {bvnc}
+        [exec] (Discord) {discord}
+        [exec] (FireFox) {firefox}
+        [exec] (HexChat) {hexchat}
+        [exec] (Mail Reader) {exo-open --launch MailReader}
+        [exec] (Mutt) {aterm -e mutt}
+        [exec] (Pidgin Internet Messenger) {pidgin}
+        [exec] (PuTTY) {putty}
+        [exec] (Remmina) {remmina-file-wrapper}
+        [exec] (Steam [Runtime]) {steam-runtime}
+        [exec] (Thunderbird) {thunderbird}
+        [exec] (TkVNC) {xterm -e tkvnc}
+        [exec] (Transmission) {transmission-gtk}
+        [exec] (Web Browser) {exo-open --launch WebBrowser}
+        [exec] (Wireshark) {wireshark}
+    [end]
+    [submenu] (Office)
+        [exec] (LibreOffice Calc) {libreoffice --calc}
+        [exec] (LibreOffice Impress) {libreoffice}
+        [exec] (LibreOffice Impress) {libreoffice --impress}
+        [exec] (LibreOffice Math) {libreoffice --math}
+        [exec] (LibreOffice Writer) {libreoffice --writer}
+    [end]
+    [submenu] (Other)
+        [exec] (NVIDIA X Server Settings) {nvidia-settings}
+    [end]
+    [submenu] (Shells)
+        [exec] (Aterm) {aterm}
+        [exec] (File Manager PCManFM) {pcmanfm}
+        [exec] (GIT) {aterm -e git}
+        [exec] (Thunar File Manager) {thunar}
+        [exec] (urxvt) {urxvt}
+        [exec] (urxvt [client]) {urxvtc}
+        [exec] (urxvt [tabbed]) {urxvt-tabbed}
+        [exec] (UXTerm) {uxterm}
+        [exec] (Xfce Terminal) {xfce4-terminal}
+        [exec] (Xterm) {xterm}
+    [end]
+    [submenu] (System)
+        [submenu] (Settings)
+            [submenu] (Xfce)
+                [exec] (Screensaver) {xscreensaver-demo}
+                [exec] (Settings Manager) {xfce4-settings-manager}
+            [end]
+            [exec] (Accessibility) {xfce4-accessibility-settings}
+            [exec] (Appearance) {xfce4-appearance-settings}
+            [exec] (ARandR) {arandr}
+            [exec] (Color Profiles) {xfce4-color-settings}
+            [exec] (Desktop) {xfdesktop-settings}
+            [exec] (Desktop Preferences) {pcmanfm --desktop-pref}
+            [exec] (Display) {xfce4-display-settings}
+            [exec] (File Manager Settings) {thunar-settings}
+            [exec] (Keyboard) {xfce4-keyboard-settings}
+            [exec] (MIME Type Editor) {xfce4-mime-settings}
+            [exec] (Mouse and Touchpad) {xfce4-mouse-settings}
+            [exec] (nitrogen) {nitrogen}
+            [exec] (Panel) {xfce4-panel --preferences}
+            [exec] (Power Manager) {xfce4-power-manager-settings}
+            [exec] (Preferred Applications) {libfm-pref-apps}
+            [exec] (Preferred Applications) {exo-preferred-applications}
+            [exec] (Session and Startup) {xfce4-session-settings}
+            [exec] (Settings Editor) {xfce4-settings-editor}
+            [exec] (Window Manager) {xfwm4-settings}
+            [exec] (Window Manager Tweaks) {xfwm4-tweaks-settings}
+            [exec] (Workspaces) {xfwm4-workspace-settings}
+            [exec] (Xfce Terminal) {xfce4-terminal --preferences}
+        [end]
+        [exec] (Avahi Zeroconf Browser) {avahi-discover}
+        [exec] (Bulk Rename) {/usr/lib/Thunar/ThunarBulkRename}
+        [exec] (conky) {conky --daemonize --pause=1}
+        [exec] (Conky) {aterm -e conky}
+        [exec] (Htop) {aterm -e htop}
+        [exec] (KeePassXC) {keepassxc}
+        [exec] (Log Out) {xfce4-session-logout}
+        [exec] (LSHW) {gtk-lshw}
+        [exec] (Psensor) {psensor}
+        [exec] (pstree) {aterm -e pstree.x11}
+        [exec] (pstree) {aterm -e pstree}
+        [exec] (pstree) {xterm -e /usr/bin/pstree.x11}
+        [exec] (Sensor Viewer) {xfce4-sensors}
+        [exec] (Top) {aterm -e top}
+        [exec] (Virtual Machine Manager) {virt-manager}
+    [end]
+    [submenu] (Utilities)
+        [exec] (About Xfce) {xfce4-about}
+        [exec] (Activate ScreenSaver [Next]) {xscreensaver-command -next}
+        [exec] (Activate ScreenSaver [Previous]) {xscreensaver-command -prev}
+        [exec] (Activate ScreenSaver [Random]) {xscreensaver-command -activate}
+        [exec] (Application Finder) {xfce4-appfinder}
+        [exec] (Demo Screen Hacks) {xscreensaver-command -demo}
+        [exec] (Disable XScreenSaver) {xscreensaver-command -exit}
+        [exec] (Enable XScreenSaver) {xscreensaver}
+        [exec] (File Manager) {exo-open --launch FileManager}
+        [exec] (Info) {aterm -e info}
+        [exec] (Lock Screen [XScreenSaver]) {xscreensaver-command -lock}
+        [exec] (Redshift) {redshift-gtk}
+        [exec] (Reinitialize XScreenSaver) {xscreensaver-command -restart}
+        [exec] (Run Program...) {xfce4-appfinder --collapsed}
+        [exec] (ScreenSaver Preferences) {xscreensaver-command -prefs}
+        [exec] (Screenshot) {xfce4-screenshooter}
+        [exec] (Terminal Emulator) {exo-open --launch TerminalEmulator}
+        [exec] (Xev) {aterm -e xev}
+        [exec] (Xkill) {xkill}
+        [exec] (Xrefresh) {xrefresh}
+        [exec] (Xsetroot) {xsetroot}
+    [end]
+    [separator]
+    [submenu] (FluxBox)
+        [workspaces] (Workspaces)
+        [submenu] (Styles)
+            [stylesdir] (/usr/share/fluxbox/styles)
+            [stylesdir] (~/.fluxbox/styles)
+        [end]
+        [config] (Configure)
+        [reconfig] (Reconfig)
+        [restart] (Restart)
+        [separator]
+        [exit] (Exit)
+    [end]
+[end]

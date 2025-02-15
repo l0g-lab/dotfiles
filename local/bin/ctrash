@@ -1,0 +1,8 @@
+#!/bin/bash
+# linux: empty trash, clear system logs & clear download history from quarantine
+# https://mths.be/bum
+
+set -e
+
+sudo rm -rfv ~/.local/share/Trash/*
+echo "Trash folder sent to /dev/null"

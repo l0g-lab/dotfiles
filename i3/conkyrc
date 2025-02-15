@@ -1,0 +1,69 @@
+conky.config = {
+--run in console out of X
+	out_to_x = false,
+	own_window = false,
+	out_to_console = true,
+	background = false,
+	max_text_width = 0,
+	border_inner_margin = 0,
+	border_outer_margin = 0,
+
+--behaviour
+	update_interval = 1.0,
+
+-- number of cpu samples to average
+-- set to 1 to disable averaging
+	cpu_avg_samples = 2,
+
+-- Add spaces to keep things from moving about?  This only affects certain objects.
+-- use_spacer should have an argument of left, right, or none
+	use_spacer = 'left',
+
+-- Force UTF8? note that UTF8 support required XFT
+	override_utf8_locale = true,
+};
+
+-- JSON for i3bar
+-- Stuff after 'text' will be formatted on screen
+
+conky.text = [[
+  ## Network Info
+  [{"full_text" : "WLAN:▲[${upspeed wlan0}]▼[${downspeed wlan0}]" , "color" : "\#00ff00"},
+   {"full_text" : "LAN:▲[${upspeed enp2s0f0}]▼[${downspeed enp2s0f0}]" , "color" : "\#ff0000"},
+
+  ## VPN Status
+   {"full_text" : "WG-VPN:${if_up wg0-mullvad}UP${else}DOWN$endif" , "color" : "\#00fff2"},
+   {"full_text" : "O-VPN:${if_up tun0}UP${else}DOWN$endif" , "color" : "\#00fff2"},
+
+  ## CPU Info
+   {"full_text" : "CPU:${cpu 0}%" , "color" : "\#e33a6e"},
+   {"full_text" : "TEMP:${hwmon 1 temp 1}C" , "color" : "\#e33a6e"},
+   {"full_text" : "LOAD:${loadavg 1 2 3}" , "color" : "\#A4DDED"},
+
+  ## RAM Info
+   {"full_text" : "MEM:${mem}" , "color" : "\#e0da37"},
+
+  ## HDD Disk IO
+   {"full_text" : "$diskio_read :Read $diskio_write :Write" , "color" : "\#ff00ff"},
+
+  ## Disk Space
+  #{"full_text" : "/: U:${fs_used /} F:${fs_free /}]" , "color" : "\#80d9d8"},
+  #{"full_text" : "/home: U:${fs_used /home} F:${fs_free /home}]" , "color" : "\#80d9d8"},
+
+  ## Battery Percentage
+   {"full_text" : "BAT:${battery_percent BAT0}%", "color" : "\#ffaf5f"},
+
+  ## Running Processes
+  #{ "full_text" : "ps${running_processes} /${processes}" , "color" : "\#A4DDED"},
+  
+  ## Date
+  #{"full_text" : "${time %B %d %Y}" , "color" : "\#eca4c4"},
+   {"full_text" : "${time %m-%d-%Y}" , "color" : "\#eca4c4"},
+
+  ## Time
+   {"full_text" : "${time %H:%M:%S} EST" , "color" : "\#95fc7b"}
+
+  ## UTC Time
+  #{"full_text" : "${utime %H:%M%P} UTC" , "color" : "\#95fc7b"}
+],
+]];

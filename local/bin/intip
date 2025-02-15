@@ -1,0 +1,19 @@
+#!/bin/bash
+# try determine current internal ip
+
+# Run the 'ip a' command and process its output
+ip a | while read -r line; do
+    # Check if the line contains an interface name (e.g., eth0, wlan0)
+    if [[ $line =~ ^[0-9]+:[[:space:]]([a-zA-Z0-9-]+): ]]; then
+        interface="${BASH_REMATCH[1]}"
+    fi
+
+    # Check if the line contains an IP address (in the inet format)
+    if [[ $line =~ inet[[:space:]]([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+) ]]; then
+        ip_address="${BASH_REMATCH[1]}"
+
+        # Display the interface and IP address
+        echo "$interface: $ip_address"
+    fi
+done
+
