@@ -14,7 +14,7 @@ complete -cf man
 # Greeting, motd etc...
 #-----------------------
 #cowsay $(fortune)
-#date 
+#date
 [ -z "$PS1" ] && return
 
 PATH=$PATH:$HOME/.local/bin
