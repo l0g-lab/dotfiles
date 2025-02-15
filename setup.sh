@@ -88,6 +88,17 @@ else
 	echo "Invalid input, skipping..."
 fi
 
+# Moving vim config into place
+read -p "Install vim config? (y/n): " response
+if [[ "$response" == "y" ]]; then
+	if [ -f ~/.vimrc ]; then cp -r ~/.gitconfig ~/.gitconfig.bak; fi
+	cp -rf gitconfig ~/.gitconfig
+	echo "setup complete:	git config"
+elif [[ "$response" == "n" ]]; then
+	echo "Skipping..."
+else
+	echo "Invalid input, skipping..."
+
 # Move local scripts into place
 read -p "Install local scripts? (y/n): " response
 if [[ "$response" == "y" ]]; then
