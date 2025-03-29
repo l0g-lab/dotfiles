@@ -1,0 +1,15 @@
+#!/bin/bash
+# geocoder (address to coordinates) using census.gov API
+
+if [ $# -ne 1 ]; then
+    echo "usage: geocoder \"address\""
+    exit 1
+fi
+
+original_address="$1"
+sent_address=$(echo "$original_address" | sed 's/ /+/g')
+
+response=$(curl -s -X GET "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=$sent_address&benchmark=4&format=json" -H "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
+
+echo $response | jq
+#echo "$response" | jq '.result.addressMatches[].coordinates'
