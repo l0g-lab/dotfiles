@@ -1,0 +1,27 @@
+#!/bin/bash
+set -e
+
+interfaces=$(ip -o link show | awk -F': ' '{print $2}' | grep -v -E 'docker|tun|tap|vpn|wg|lo')
+
+echo "[*] Checking NetworkManager status"
+status=$(sudo systemctl is-active NetworkManager)
+
+if [[ $status == "active" ]]; then
+    echo "[*] Stopping NetworkManager"
+    sudo systemctl stop NetworkManager
+else
+    echo "[*] Netowrk Manager already stopped. Continuing..."
+fi
+
+if [[ -z "$interfaces" ]]; then
+    echo "[*] No valid interface found. Exiting"
+    exit 1
+else
+    for i in $interfaces; do
+        echo "[*] Randomizing MAC Address: $i"
+        sudo /usr/bin/macchanger -r $i
+    done
+fi
+
+echo "[*] Starting NetworkManager"
+sudo systemctl restart NetworkManager
