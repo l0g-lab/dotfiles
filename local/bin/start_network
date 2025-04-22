@@ -1,12 +1,12 @@
 #!/bin/bash
-set -e
 
+echo "[*] Gathering interfaces"
 interfaces=$(ip -o link show | awk -F': ' '{print $2}' | grep -v -E 'docker|tun|tap|vpn|wg|lo')
 
 echo "[*] Checking NetworkManager status"
-status=$(systemctl is-active NetworkManager)
+nm_status=$(systemctl is-active NetworkManager)
 
-if [[ "$status" = "active" ]]; then
+if [ "$nm_status" = "active" ]; then
     echo "[*] Stopping NetworkManager"
     sudo systemctl stop NetworkManager
 else
