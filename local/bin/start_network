@@ -4,9 +4,9 @@ set -e
 interfaces=$(ip -o link show | awk -F': ' '{print $2}' | grep -v -E 'docker|tun|tap|vpn|wg|lo')
 
 echo "[*] Checking NetworkManager status"
-status=$(sudo systemctl is-active NetworkManager)
+status=$(systemctl is-active NetworkManager)
 
-if [[ $status == "active" ]]; then
+if [[ "$status" = "active" ]]; then
     echo "[*] Stopping NetworkManager"
     sudo systemctl stop NetworkManager
 else
