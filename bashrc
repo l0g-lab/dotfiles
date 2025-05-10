@@ -67,3 +67,24 @@ CRYPTOGRAPHY_OPENSSL_NO_LEGACY=1
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [[ -z "$TMUX" ]]; then
   exec tmux
 fi
+
+# Auto-activate virtualenv if .venv folder exists
+function check_venv() {
+    # Check if the current directory or any parent directory contains a .venv folder
+    local dir=$(pwd)
+    while [ "$dir" != "/" ]; do
+        if [ -d "$dir/.venv" ]; then
+            # Activate the virtual environment
+            source "$dir/.venv/bin/activate"
+            return 0
+        fi
+        dir=$(dirname "$dir")
+    done
+    # Deactivate if no .venv found
+    if [[ -n "$VIRTUAL_ENV" ]]; then
+        deactivate
+    fi
+}
+
+# Automatically check and activate/deactivate virtualenv when changing directories
+export PROMPT_COMMAND="check_venv; $PROMPT_COMMAND"
