@@ -19,7 +19,11 @@ complete -cf man
 
 PATH=$PATH:$HOME/.local/bin
 
-PS1='\[\033[01;32m\][\u@\h\[\033[01;37m\] \W\[\033[01;32m\]]\$\[\033[00m\] '
+#PS1='\[\033[01;32m\][\u@\h\[\033[01;37m\] \W\[\033[01;32m\]]\$\[\033[00m\] '
+
+# Add support for git branch in prompt
+source ~/.local/bin/git-prompt.sh
+PS1='\[\033[01;32m\][\u@\h\[\033[01;37m\] \W\[\033[01;32m\]\[\033[01;35m\]$(__git_ps1 " (%s)")\[\033[01;32m\]]\$\[\033[00m\] '
 
 # Setup keyboard
 xset r rate 185 50
