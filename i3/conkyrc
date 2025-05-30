@@ -28,8 +28,8 @@ conky.config = {
 
 conky.text = [[
   ## Network Info
-  [{"full_text" : "WLAN:▲[${upspeed wlan0}]▼[${downspeed wlan0}]" , "color" : "\#00ff00"},
-   {"full_text" : "LAN:▲[${upspeed enp2s0f0}]▼[${downspeed enp2s0f0}]" , "color" : "\#ff0000"},
+  [${if_up wlan0}{"full_text" : "WLAN:▲[${upspeed wlan0}]▼[${downspeed wlan0}]" , "color" : "\#00ff00"},${endif}
+   ${if_up enp2s0f0}{"full_text" : "LAN:▲[${upspeed enp2s0f0}]▼[${downspeed enp2s0f0}]" , "color" : "\#ff0000"},${endif}
 
   ## VPN Status
    {"full_text" : "WG-VPN:${if_up wg0-mullvad}UP${else}DOWN$endif" , "color" : "\#00fff2"},
@@ -44,7 +44,7 @@ conky.text = [[
    {"full_text" : "MEM:${mem}" , "color" : "\#e0da37"},
 
   ## HDD Disk IO
-   {"full_text" : "$diskio_read :Read $diskio_write :Write" , "color" : "\#ff00ff"},
+   {"full_text" : "DISK:▲[$diskio_read]▼[$diskio_write]" , "color" : "\#ff00ff"},
 
   ## Disk Space
   #{"full_text" : "/: U:${fs_used /} F:${fs_free /}]" , "color" : "\#80d9d8"},
