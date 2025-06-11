@@ -3,6 +3,9 @@
 # ~/.bashrc
 #
 
+# History Control
+export HISTCONTROL=ignoredups
+
 # Command Completion
 complete -cf sudo
 complete -cf man
