@@ -49,6 +49,7 @@ alias mkdir='mkdir -p'
 alias which='type -all'
 alias path='echo -e ${PATH//:/\\n}'
 alias view='vim -R'
+alias ffuf='ffuf -c'
 
 # -> SCRIPTS
 
