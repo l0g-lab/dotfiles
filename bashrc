@@ -68,10 +68,10 @@ LS_COLORS='rs=0:di=1;33;44:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01
 export LS_COLORS
 
 # conda stuff
-
 [ -f /opt/miniconda3/etc/profile.d/conda.sh ] && source /opt/miniconda3/etc/profile.d/conda.sh
 CRYPTOGRAPHY_OPENSSL_NO_LEGACY=1
 
+# autostart tmux
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [[ -z "$TMUX" ]]; then
   exec tmux
 fi
