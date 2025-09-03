@@ -41,7 +41,7 @@ alias la="ls -al"
 alias random="strings -n8 /dev/urandom | egrep "[a-zA-Z0-9]{8}""
 alias ls='ls --color=auto'
 alias zip='7za a output.zip'
-alias grep='grep --color=auto'
+alias grep='grep --color=auto --line-number'
 alias ..='cd ..'
 alias ps='ps auxf'
 alias halt='sudo halt'
