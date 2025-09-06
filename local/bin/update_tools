@@ -1,3 +1,9 @@
 #!/bin/bash
+# Script to automatically update various github repos
 
-find ~/tools/. -type d -name ".git" -execdir sh -c 'echo "[*] Updating $(pwd)"; git pull' \;
+repo_dirs=("/home/$USER/tools" "/home/$USER/rf_stuffz" "/home/$USER/projects")
+for found_dir in "${repo_dirs[@]}"; do
+    if [[ -d "$found_dir" ]]; then
+        find "${found_dir}/." -type d -name ".git" -execdir sh -c 'echo "[*] Updating $(pwd)"; git submodule init; git pull --recurse-submodules; echo' \;
+    fi
+done
