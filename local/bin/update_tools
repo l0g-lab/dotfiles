@@ -5,7 +5,7 @@ export RED='\033[1;31m'
 export GREEN='\033[1;32m'
 export NC='\033[0m' # No color
 
-repo_dirs=("/home/$USER/tools" "/home/$USER/rf_stuffz" "/home/$USER/projects")
+repo_dirs=("$HOME/tools" "$HOME/rf_stuffz" "$HOME/projects")
 for found_dir in "${repo_dirs[@]}"; do
     if [[ -d "$found_dir" ]]; then
         find "${found_dir}/." -type d -name ".git" -execdir sh -c '
