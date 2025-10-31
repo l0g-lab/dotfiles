@@ -1,5 +1,8 @@
 " vim configuration file
 
+let mapleader = " "
+colorscheme murphy
+
 " configure expanding of tabs for various file types
 au BufRead,BufNewFile *.py set expandtab
 au BufRead,BufNewFile *.c set expandtab
@@ -20,3 +23,21 @@ filetype plugin on              " enable filetype plugins
 filetype indent on              " enable filetype-based indenting
 set showcmd                     " show (partial) command in status line
 set number                      " show line numbers
+set relativenumber              " show relative line numbers
+
+" Remaps
+" nnoremap <leader>f :Files<CR>
+" nnoremap <leader>g :GFiles<CR>
+" nnoremap <leader>gs :GFiles?<CR>
+" nnoremap <leader>r :Rg<CR>
+" nnoremap <leader>b :Buffer<CR>
+" nnoremap <leader>w :Windows<CR>
+
+" Plugins - plug.vim
+" call plug#begin()
+" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+" Plug 'junegunn/fzf.vim'
+" call plug#end()
+
+" FZF plugin config
+" let g:fzf_layout = { 'down': '~40%' }
