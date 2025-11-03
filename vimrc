@@ -3,6 +3,24 @@
 let mapleader = " "
 colorscheme murphy
 
+" Auto-install plug-vim
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -s -fLo '.data_dir.'/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter + PlugInstall --sync | source $MYVIMRC
+endif
+
+" Run PlugInstall if there are missing plugins
+autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+    \| PlugInstall --sync | source $MYVIMRC
+\| endif
+
+" Plugins
+call plug#begin()
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+call plug#end()
+
 " configure expanding of tabs for various file types
 au BufRead,BufNewFile *.py set expandtab
 au BufRead,BufNewFile *.c set expandtab
@@ -26,18 +44,13 @@ set number                      " show line numbers
 set relativenumber              " show relative line numbers
 
 " Remaps
-" nnoremap <leader>f :Files<CR>
-" nnoremap <leader>g :GFiles<CR>
-" nnoremap <leader>gs :GFiles?<CR>
-" nnoremap <leader>r :Rg<CR>
-" nnoremap <leader>b :Buffer<CR>
-" nnoremap <leader>w :Windows<CR>
+nnoremap <leader>f :Files<CR>
+nnoremap <leader>g :GFiles<CR>
+nnoremap <leader>gs :GFiles?<CR>
+nnoremap <leader>r :Rg<CR>
+nnoremap <leader>b :Buffer<CR>
+nnoremap <leader>w :Windows<CR>
 
-" Plugins - plug.vim
-" call plug#begin()
-" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-" Plug 'junegunn/fzf.vim'
-" call plug#end()
 
 " FZF plugin config
-" let g:fzf_layout = { 'down': '~40%' }
+let g:fzf_layout = { 'down': '~40%' }

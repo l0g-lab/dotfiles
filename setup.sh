@@ -12,6 +12,7 @@ declare -a configs=(
     "spectrwm.conf:$HOME/.spectrwm.conf"
     "gitconfig:$HOME/.gitconfig"
     "nvim:$HOME/.config/nvim"
+    "vimrc:$HOME/.vimrc"
 )
 
 local_scripts_src="local/bin"
