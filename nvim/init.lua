@@ -274,8 +274,8 @@ do_now(function()
     },
     previewers = {
       bat = {
-        cmd = "bat",
-        args = "--color=always --theme=murphy --style=changes",
+        cmd = "batcat",
+        args = "--color=always --style=changes",
       },
     },
     winopts = {

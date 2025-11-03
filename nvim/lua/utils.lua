@@ -328,7 +328,7 @@ function U.fzf_lua_utils(fzf_instance)
       ["--delimiter"] = ":",
       ["--nth"] = "4..", -- keep the match text as the shown part (optional)
       ["--preview-window"] = "right:60%:border-left:wrap:+{2}", -- jump preview to line {2}
-      ["--preview"] = [[bat --style=changes --theme=murphy --color=always --highlight-line {2} {1}]],
+      ["--preview"] = [[batcat --style=changes --color=always --highlight-line {2} {1}]],
     })
 
     opts.fn_transform = nil
