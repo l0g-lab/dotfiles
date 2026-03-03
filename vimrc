@@ -39,9 +39,27 @@ syntax on                       " syntax highlighting
 filetype on                     " enable filetype detection
 filetype plugin on              " enable filetype plugins
 filetype indent on              " enable filetype-based indenting
-set showcmd                     " show (partial) command in status line
+"set showcmd                     " show (partial) command in status line
 set number                      " show line numbers
 set relativenumber              " show relative line numbers
+
+" Statusline
+set cmdheight=1
+set showmode
+set showcmd
+set laststatus=2
+set statusline=%f\ %y\ %p%%\ \|%L\ lines\ \|\ %m\ \[%{mode()}\]\ %l/%L\ lines
+
+" Automatically adjust the statusline in command-line mode
+augroup CmdLineStatusLine
+  autocmd!
+  " When entering command-line mode, adjust the statusline to show the input
+  autocmd CmdlineEnter * set statusline=%f\ %y\ %p%%\ \|%L\ lines\ \|\ %m\ \[%{mode()}\]\ %l/%L\ lines\ \|:%F
+  " When leaving command-line mode, restore the regular statusline
+  autocmd CmdlineLeave * set statusline=%f\ %y\ %p%%\ \|%L\ lines\ \|\ %m\ \[%{mode()}\]\ %l/%L\ lines
+augroup END
+
+set cmdheight=1
 
 " Remaps
 nnoremap <leader>f :Files<CR>
@@ -50,7 +68,6 @@ nnoremap <leader>gs :GFiles?<CR>
 nnoremap <leader>r :Rg<CR>
 nnoremap <leader>b :Buffer<CR>
 nnoremap <leader>w :Windows<CR>
-
 
 " FZF plugin config
 let g:fzf_layout = { 'down': '~40%' }
