@@ -11,7 +11,8 @@ set $mod Mod4
 # clear in small sizes. However, if you need a lot of unicode glyphs or
 # right-to-left text rendering, you should instead use pango for rendering and
 # chose a FreeType font, such as:
-font xft:Terminus 16
+font xft:JetBrains Mono 14
+#font xft:Terminus 16
 #font xft:Anonymous Pro 12
 
 # Custom Config
@@ -34,7 +35,8 @@ bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Shift+c kill
 
 # start dmenu (a program launcher)
-bindsym $mod+p exec dmenu_run -fn 'Terminus:size=16'
+bindsym $mod+p exec dmenu_run -fn 'JetBrains Mono:size=14'
+#bindsym $mod+p exec dmenu_run -fn 'Terminus:size=16'
 #bindsym $mod+p exec dmenu_run -fn 'xft:Anonymous Pro:size=12'
 
 # change focus
@@ -112,8 +114,10 @@ bindsym $mod+Shift+0 move container to workspace $tag10
 
 # reload the configuration file
 bindsym $mod+q reload
+
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
+
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+q exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
@@ -141,6 +145,15 @@ for_window [class="pavucontrol"] floating enable
 
 bindsym $mod+r mode "resize"
 
+# Backlight control with xbacklight - XF86MonBrightnessUp and XF86MonBrightnessDown
+#bindsym XF86MonBrightnessUp exec xbacklight -inc 10
+#bindsym XF86MonBrightnessDown exec xbacklight -dec 10
+
+# Volume control with amixer
+#bindsym XF86AudioRaiseVolume exec "amixer -c 0 sset 'Master',0 3dB+"
+#bindsym XF86AudioLowerVolume exec "amixer -c 0 sset 'Master',0 3dB-"
+#bindsym XF86AudioMute exec amixer set Master toggle
+
 # Configure i3wm colors
 
 #client.focused		#F39C12 #000000 #bbbbbb
@@ -150,11 +163,12 @@ client.focused		#00FF00 #000000 #bbbbbb
 # finds out, if available)
 bar {
     status_command      $HOME/.config/i3/i3conky.sh
-    #font 		xft:Anonymous Pro 12
-    font 		xft:Terminus 16
-    position		top
+    font 		        xft:JetBrains Mono 14
+    #font 		        xft:Terminus 16
+    #font 		        xft:Anonymous Pro 12
+    position		    top
     workspace_buttons	yes
-    mode		dock
+    mode		        dock
     colors {
 			#separator #EBA72C
 			separator #00FF00
