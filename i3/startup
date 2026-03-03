@@ -1,5 +1,5 @@
 nm-applet &
-volumeicon &
+volctl &
 xset r rate 185 50 &
 xscreensaver --no-splash &
 xfce4-power-manager &
