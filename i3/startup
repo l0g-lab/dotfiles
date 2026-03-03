@@ -1,5 +1,8 @@
 nm-applet &
 volumeicon &
+xset r rate 185 50 &
 xscreensaver --no-splash &
 xfce4-power-manager &
 nitrogen --restore &
+flameshot &
+picom -D 1 &
