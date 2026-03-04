@@ -1,71 +1,47 @@
 #!/bin/bash
-
-# Create symlinks to install dotfiles
-set -e # not command output
-
-declare -a configs=(
-    "bashrc:$HOME/.bashrc"
-    "Xdefaults:$HOME/.Xdefaults"
-    "tmux.conf:$HOME/.tmux.conf"
-    "i3:$HOME/.config/i3"
-    "fluxbox:$HOME/.config/fluxbox"
-    "spectrwm.conf:$HOME/.spectrwm.conf"
-    "gitconfig:$HOME/.gitconfig"
-    "nvim:$HOME/.config/nvim"
-    "vimrc:$HOME/.vimrc"
-    "xfce4/panel:$HOME/.config/xfce4/panel"
-    "xfce4/xfconf/xfce4-panel.xml:$HOME/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml"
-    # "xfce4/xfconf/xfce4-terminal.xml:$HOME/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-terminal.xml"
-    # "xfce4/xfconf/xfce4-keyboard-shortcuts.xml:$HOME/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml"
-    # "xfce4/xfconf/xfwm4.xml:$HOME/.config/xfce4/xfconf/xfce-perchannel-xml/xfwm4.xml"
-)
-
-local_scripts_src="local/bin"
-local_scripts_dest="$HOME/.local/bin"
+set -euo pipefail # no command output
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-echo "Script directory: $SCRIPT_DIR"
+LOCAL_BIN_SRC="$SCRIPT_DIR/local/bin"
+LOCAL_BIN_DEST="$HOME/.local/bin"
 
-setup_symlink() {
-    local source_file="$1"
-    local dest_link="$2"
+echo "Dotfile directory: $SCRIPT_DIR"
 
-    # Check if destination already exists
-    if [[ -e "$dest_link" ]] || [[ -L "$dest_link" ]]; then
-        # If it's already a symlink to the correct target, do nothing
-        if [[ -L "$dest_link" ]] && [[ "$(readlink -f "$dest_link")" == "$(readlink -f "$source_file")" ]]; then
-            echo "Symlink already exists and points to correct target: $dest_link -> $source_file"
-            return 0
-        else
-            echo "Warning: '$dest_link' already exists." >&2
-            read -p "Overwrite? (y/N): " -n 1 -r confirm
-            echo
-            if [[ ! $confirm =~ ^[Yy]$ ]]; then
-                echo "Operation cancelled." >&2
-                return 1
-            fi
-            rm -rf "$dest_link"
-        fi
-    fi
+#########################################
+# Helper functions
+#########################################
 
-    # Create parent directory if it doesn't exist
-    local dest_dir="$(dirname "$dest_link")"
-    if [[ ! -d "$dest_dir" ]]; then
-        mkdir -p "$dest_dir"
-    fi
-
-    # Create the symbolic link
-    if ln -s "$source_file" "$dest_link"; then
-        echo "Symbolic link created: $dest_link -> $source_file"
-        return 0
-    else
-        echo "Error: Failed to create symbolic link." >&2
-        return 1
-    fi
+confirm() {
+    local prompt="$1"
+    read -rp "$prompt (y/N): " -n 1 -r
+    echo
+    [[ $REPLY =~ ^[Yy]$ ]]
 }
 
-# Helper function to apply xfce4 settings via xfquery
-xfquery-apply() {
+symlink() {
+    local src="$1"
+    local dest="$2"
+
+    mkdir -p "$(dirname "$dest")"
+
+    if [[ -L "$dest" && "$(readlink -f "$dest")" == "$(readlink -f "$src")" ]]; then
+        echo "✔ Already linked: $dest"
+        return
+    fi
+
+    if [[ -e "$dest" || -L "$dest" ]]; then
+        if ! confirm "Overwrite $dest?"; then
+            echo "✖ Skipping $dest"
+            return
+        fi
+        rm -rf "$dest"
+    fi
+
+    ln -s "$src" "$dest"
+    echo "→ Linked $dest"
+}
+
+xfapply() {
   local channel="$1"
   local path="$2"
   local type="$3"
@@ -85,6 +61,25 @@ xfquery-apply() {
   fi
 }
 
+
+#########################################
+# Dotfile Symlinks
+#########################################
+
+configs=(
+    "bashrc:$HOME/.bashrc"
+    "Xdefaults:$HOME/.Xdefaults"
+    "tmux.conf:$HOME/.tmux.conf"
+    "i3:$HOME/.config/i3"
+    "fluxbox:$HOME/.config/fluxbox"
+    "spectrwm.conf:$HOME/.spectrwm.conf"
+    "gitconfig:$HOME/.gitconfig"
+    "nvim:$HOME/.config/nvim"
+    "vimrc:$HOME/.vimrc"
+    "local/bin:$HOME/.local/bin"
+)
+
+echo
 for config in "${configs[@]}"; do
   IFS=':' read -r src_file dest_path <<< "$config"
   src_path="$SCRIPT_DIR/$src_file"
@@ -94,138 +89,139 @@ for config in "${configs[@]}"; do
       continue
   fi
 
-  echo
-  read -p "Install $src_file? (y/n): " -n 1 -r response
-  echo
-  if [[ "$response" =~ ^[Yy]$ ]]; then
-
-    if setup_symlink "$src_path" "$dest_path"; then
-        echo "Setup complete: $src_file"
-    else
-        echo "Failed: $src_file"
-    fi
+  if confirm "Install $src_file"?; then
+      symlink "$src_path" "$dest_path"
   else
-    echo "Skipping: $src_file"
+      echo "✖ Skipping $src_file"
   fi
 done
 
-# Handle local/bin scripts separately (copy multiple files)
-echo
-read -p "Install local scripts to ~/.local/bin/? (y/n): " -n 1 -r response
-echo
-if [[ "$response" =~ ^[Yy]$ ]]; then
-    src_dir="$SCRIPT_DIR/$local_scripts_src"
-    if [[ ! -d "$src_dir" ]]; then
-        echo "Local scripts directory not found: $src_dir"
+#########################################
+# XFCE Configuration
+#########################################
+
+if confirm "Configure XFCE4 settings?"; then
+    
+    echo "🔧 Applying complete XFCE configuration..."
+
+    command -v xfconf-query >/dev/null || {
+        echo "xfconf-query not found. Install XFCE first."
+        exit 1
+    }
+    
+    ############################################################
+    # PANEL SYMLINK
+    ############################################################
+    PANEL_SRC="xfce4/panel"
+    PANEL_DEST="$HOME/.config/xfce4/panel"
+    PANEL_CONFIG_SRC="xfce4/xfconf/xfce4-panel.xml"
+    PANEL_CONFIG_DEST="$HOME/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml"
+
+    if [[ -d "$PANEL_SRC" ]]; then
+        if [[ -L "$PANEL_DEST" ]] || [[ -d "$PANEL_DEST" ]]; then
+            echo "✔ Removing old panel config: $PANEL_DEST"
+            rm -rf "$PANEL_DEST"
+        fi
+        mkdir -p "$(dirname "$PANEL_DEST")"
+        symlink "$PANEL_SRC" "$PANEL_DEST"
+        symlink "$PANEL_CONFIG_SRC" "$PANEL_CONFIG_DEST"
+        # echo "✔ Symlinked XFCE4 panel config: $PANEL_DEST -> $PANEL_SRC"
     else
-        mkdir -p "$local_scripts_dest"
-        cp -f "$src_dir"/* "$local_scripts_dest"/ 2>/dev/null || true
-        echo "Local scripts installed to: $local_scripts_dest"
+        echo "✖ Panel source not found: $PANEL_SRC"
     fi
-else
-    echo "Skipping local scripts"
+
+    ############################################################
+    # KEYBOARD SHORTCUTS
+    ############################################################
+    K="xfce4-keyboard-shortcuts"
+    
+    xfapply "$K" "/commands/custom/override" bool true
+    xfapply "$K" "/xfwm4/custom/override" bool true
+    
+    # Commands
+    xfapply "$K" "/commands/custom/<Alt>F2" string "xfce4-appfinder"
+    xfapply "$K" "/commands/custom/<Alt>F2/startup-notify" bool true
+    xfapply "$K" "/commands/custom/Print" string "flameshot gui"
+    xfapply "$K" "/commands/custom/<Primary>Escape" string "xfdesktop --menu"
+    xfapply "$K" "/commands/custom/<Primary><Alt>Delete" string "xfce4-session-logout"
+    xfapply "$K" "/commands/custom/<Primary><Alt>t" string "exo-open --launch TerminalEmulator"
+    xfapply "$K" "/commands/custom/<Primary><Alt>f" string "thunar"
+    xfapply "$K" "/commands/custom/<Primary><Alt>l" string "xflock4"
+    xfapply "$K" "/commands/custom/<Alt>F1" string "xfce4-popup-applicationsmenu"
+    xfapply "$K" "/commands/custom/<Primary><Shift>Escape" string "xfce4-taskmanager"
+    xfapply "$K" "/commands/custom/<Primary><Alt>Escape" string "xkill"
+    xfapply "$K" "/commands/custom/HomePage" string "exo-open --launch WebBrowser"
+    xfapply "$K" "/commands/custom/XF86Display" string "xfce4-display-settings --minimal"
+    xfapply "$K" "/commands/custom/<Super>p" string "$HOME/.local/bin/xfce-dmenu-desktop"
+    xfapply "$K" "/commands/custom/<Super>Enter" string "exo-open --launch TerminalEmulator"
+    
+    # Workspace switching
+    for i in {1..10}; do
+      xfapply "$K" "/xfwm4/custom/<Super>$i" string "workspace_${i}_key"
+    done
+    
+    xfapply "$K" "/xfwm4/custom/<Super>Tab" string "switch_window_key"
+    xfapply "$K" "/xfwm4/custom/<Alt>Tab" string "cycle_windows_key"
+    xfapply "$K" "/xfwm4/custom/<Alt><Shift>Tab" string "cycle_reverse_windows_key"
+    
+    ############################################################
+    # TERMINAL
+    ############################################################
+    
+    T="xfce4-terminal"
+    
+    xfapply "$T" "/title-mode" string "TERMINAL_TITLE_REPLACE"
+    xfapply "$T" "/misc-menubar-default" bool false
+    xfapply "$T" "/shortcuts-no-menukey" bool true
+    xfapply "$T" "/scrolling-unlimited" bool true
+    xfapply "$T" "/scrolling-bar" string "TERMINAL_SCROLLBAR_NONE"
+    xfapply "$T" "/misc-cursor-blinks" bool true
+    xfapply "$T" "/font-name" string "JetBrainsMonoNL Nerd Font Mono 12"
+    xfapply "$T" "/font-use-system" bool false
+    xfapply "$T" "/misc-tab-close-middle-click" bool false
+    xfapply "$T" "/misc-middle-click-opens-uri" bool true
+    xfapply "$T" "/background-mode" string "TERMINAL_BACKGROUND_TRANSPARENT"
+    xfapply "$T" "/background-darkness" double 0.85
+    
+    ############################################################
+    # XFWM4
+    ############################################################
+    
+    W="xfwm4"
+    BASE="/general"
+    
+    xfapply "$W" "$BASE/activate_action" string bring
+    xfapply "$W" "$BASE/borderless_maximize" bool true
+    xfapply "$W" "$BASE/click_to_focus" bool false
+    xfapply "$W" "$BASE/easy_click" string Alt
+    xfapply "$W" "$BASE/focus_delay" int 5
+    xfapply "$W" "$BASE/focus_hint" bool true
+    xfapply "$W" "$BASE/focus_new" bool true
+    xfapply "$W" "$BASE/raise_on_click" bool true
+    xfapply "$W" "$BASE/raise_on_focus" bool false
+    xfapply "$W" "$BASE/prevent_focus_stealing" bool false
+    
+    xfapply "$W" "$BASE/theme" string Blackwall
+    xfapply "$W" "$BASE/title_alignment" string center
+    xfapply "$W" "$BASE/title_font" string "JetBrainsMonoNL Nerd Font Propo 9"
+    
+    xfapply "$W" "$BASE/use_compositing" bool true
+    xfapply "$W" "$BASE/unredirect_overlays" bool true
+    xfapply "$W" "$BASE/vblank_mode" string auto
+    xfapply "$W" "$BASE/shadow_opacity" int 50
+    xfapply "$W" "$BASE/shadow_delta_y" int -3
+    
+    xfapply "$W" "$BASE/workspace_count" int 10
+    xfapply "$W" "$BASE/wrap_cycle" bool true
+    xfapply "$W" "$BASE/wrap_layout" bool true
+    xfapply "$W" "$BASE/wrap_resistance" int 10
+    xfapply "$W" "$BASE/scroll_workspaces" bool true
+    
+    xfapply "$W" "$BASE/workspace_names" array \
+      "1:net" "2:term" "3:file" "4:[4]" "5:com" \
+      "6:vpn" "7:misc" "8:mult" "9:mail" "0:sys"
+
+    echo "✔ XFCE configuration applied"
 fi
-echo
 
-echo "Applying XFCE configuration..."
-############################################################
-# KEYBOARD SHORTCUTS
-############################################################
-
-K="xfce4-keyboard-shortcuts"
-
-xfquery-apply "$K" "/commands/custom/override" bool true
-xfquery-apply "$K" "/xfwm4/custom/override" bool true
-
-# Commands
-xfquery-apply "$K" "/commands/custom/<Alt>F2" string "xfce4-appfinder"
-xfquery-apply "$K" "/commands/custom/<Alt>F2/startup-notify" bool true
-xfquery-apply "$K" "/commands/custom/Print" string "flameshot gui"
-xfquery-apply "$K" "/commands/custom/<Primary>Escape" string "xfdesktop --menu"
-xfquery-apply "$K" "/commands/custom/<Primary><Alt>Delete" string "xfce4-session-logout"
-xfquery-apply "$K" "/commands/custom/<Primary><Alt>t" string "exo-open --launch TerminalEmulator"
-xfquery-apply "$K" "/commands/custom/<Primary><Alt>f" string "thunar"
-xfquery-apply "$K" "/commands/custom/<Primary><Alt>l" string "xflock4"
-xfquery-apply "$K" "/commands/custom/<Alt>F1" string "xfce4-popup-applicationsmenu"
-xfquery-apply "$K" "/commands/custom/<Primary><Shift>Escape" string "xfce4-taskmanager"
-xfquery-apply "$K" "/commands/custom/<Primary><Alt>Escape" string "xkill"
-xfquery-apply "$K" "/commands/custom/HomePage" string "exo-open --launch WebBrowser"
-xfquery-apply "$K" "/commands/custom/XF86Display" string "xfce4-display-settings --minimal"
-xfquery-apply "$K" "/commands/custom/<Super>p" string "$HOME/.local/bin/xfce-dmenu-desktop"
-xfquery-apply "$K" "/commands/custom/<Super>Enter" string "exo-open --launch TerminalEmulator"
-
-# Workspace switching
-for i in {1..10}; do
-  xfquery-apply "$K" "/xfwm4/custom/<Super>$i" string "workspace_${i}_key"
-done
-
-xfquery-apply "$K" "/xfwm4/custom/<Super>Tab" string "switch_window_key"
-xfquery-apply "$K" "/xfwm4/custom/<Alt>Tab" string "cycle_windows_key"
-xfquery-apply "$K" "/xfwm4/custom/<Alt><Shift>Tab" string "cycle_reverse_windows_key"
-
-############################################################
-# TERMINAL
-############################################################
-
-T="xfce4-terminal"
-
-xfquery-apply "$T" "/title-mode" string "TERMINAL_TITLE_REPLACE"
-xfquery-apply "$T" "/misc-menubar-default" bool false
-xfquery-apply "$T" "/shortcuts-no-menukey" bool true
-xfquery-apply "$T" "/scrolling-unlimited" bool true
-xfquery-apply "$T" "/scrolling-bar" string "TERMINAL_SCROLLBAR_NONE"
-xfquery-apply "$T" "/misc-cursor-blinks" bool true
-xfquery-apply "$T" "/font-name" string "JetBrainsMonoNL Nerd Font Mono 12"
-xfquery-apply "$T" "/font-use-system" bool false
-xfquery-apply "$T" "/misc-tab-close-middle-click" bool false
-xfquery-apply "$T" "/misc-middle-click-opens-uri" bool true
-xfquery-apply "$T" "/background-mode" string "TERMINAL_BACKGROUND_TRANSPARENT"
-xfquery-apply "$T" "/background-darkness" double 0.85
-
-############################################################
-# XFWM4
-############################################################
-
-W="xfwm4"
-BASE="/general"
-
-xfquery-apply "$W" "$BASE/activate_action" string bring
-xfquery-apply "$W" "$BASE/borderless_maximize" bool true
-xfquery-apply "$W" "$BASE/click_to_focus" bool false
-xfquery-apply "$W" "$BASE/easy_click" string Alt
-xfquery-apply "$W" "$BASE/focus_delay" int 5
-xfquery-apply "$W" "$BASE/focus_hint" bool true
-xfquery-apply "$W" "$BASE/focus_new" bool true
-xfquery-apply "$W" "$BASE/raise_on_click" bool true
-xfquery-apply "$W" "$BASE/raise_on_focus" bool false
-xfquery-apply "$W" "$BASE/prevent_focus_stealing" bool false
-
-xfquery-apply "$W" "$BASE/theme" string Blackwall
-xfquery-apply "$W" "$BASE/title_alignment" string center
-xfquery-apply "$W" "$BASE/title_font" string "JetBrainsMonoNL Nerd Font Propo 9"
-
-xfquery-apply "$W" "$BASE/use_compositing" bool true
-xfquery-apply "$W" "$BASE/unredirect_overlays" bool true
-xfquery-apply "$W" "$BASE/vblank_mode" string auto
-xfquery-apply "$W" "$BASE/shadow_opacity" int 50
-xfquery-apply "$W" "$BASE/shadow_delta_y" int -3
-
-xfquery-apply "$W" "$BASE/workspace_count" int 10
-xfquery-apply "$W" "$BASE/wrap_cycle" bool true
-xfquery-apply "$W" "$BASE/wrap_layout" bool true
-xfquery-apply "$W" "$BASE/wrap_resistance" int 10
-xfquery-apply "$W" "$BASE/scroll_workspaces" bool true
-
-xfquery-apply "$W" "$BASE/workspace_names" array \
-  "1:net" \
-  "2:term" \
-  "3:file" \
-  "4:[4]" \
-  "5:com" \
-  "6:vpn" \
-  "7:misc" \
-  "8:mult" \
-  "9:mail" \
-  "0:sys"
-
-echo "Done."
+echo "✔ All requested configs applied"
