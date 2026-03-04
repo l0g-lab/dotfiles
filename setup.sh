@@ -5,7 +5,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LOCAL_BIN_SRC="$SCRIPT_DIR/local/bin"
 LOCAL_BIN_DEST="$HOME/.local/bin"
 
-echo "Dotfile directory: $SCRIPT_DIR"
+echo -e "Dotfile directory: \e[35m$SCRIPT_DIR\e[0m"
 
 #########################################
 # Helper functions
@@ -25,20 +25,20 @@ symlink() {
     mkdir -p "$(dirname "$dest")"
 
     if [[ -L "$dest" && "$(readlink -f "$dest")" == "$(readlink -f "$src")" ]]; then
-        echo "✔ Already linked: $dest"
+        echo -e "\e[36m✔\e[0m Already linked: $dest"
         return
     fi
 
     if [[ -e "$dest" || -L "$dest" ]]; then
         if ! confirm "Overwrite $dest?"; then
-            echo "✖ Skipping $dest"
+            echo -e "\e[31m✖\e[0m Skipping $dest"
             return
         fi
         rm -rf "$dest"
     fi
 
     ln -s "$src" "$dest"
-    echo "→ Linked $dest"
+    echo -e "\e[32m→\e[0m Linked $dest"
 }
 
 xfapply() {
@@ -85,14 +85,14 @@ for config in "${configs[@]}"; do
   src_path="$SCRIPT_DIR/$src_file"
 
   if [[ ! -e "$src_path" ]]; then
-      echo "Source not found, skipping: $src_path"
+      echo -e "\e[31m✖\e[0m Source not found, skipping $src_path"
       continue
   fi
 
   if confirm "Install $src_file"?; then
       symlink "$src_path" "$dest_path"
   else
-      echo "✖ Skipping $src_file"
+      echo -e "\e[31m✖\e[0m Skipping $src_file"
   fi
 done
 
@@ -105,7 +105,7 @@ if confirm "Configure XFCE4 settings?"; then
     echo "🔧 Applying complete XFCE configuration..."
 
     command -v xfconf-query >/dev/null || {
-        echo "xfconf-query not found. Install XFCE first."
+        echo -e "\e[31m✖\e[0mxfconf-query not found. Install XFCE first."
         exit 1
     }
     
@@ -119,7 +119,7 @@ if confirm "Configure XFCE4 settings?"; then
 
     if [[ -d "$PANEL_SRC" ]]; then
         if [[ -L "$PANEL_DEST" ]] || [[ -d "$PANEL_DEST" ]]; then
-            echo "✔ Removing old panel config: $PANEL_DEST"
+            echo -e "\e[32m✔\e[0m Removing old panel config: $PANEL_DEST"
             rm -rf "$PANEL_DEST"
         fi
         mkdir -p "$(dirname "$PANEL_DEST")"
@@ -127,7 +127,7 @@ if confirm "Configure XFCE4 settings?"; then
         symlink "$PANEL_CONFIG_SRC" "$PANEL_CONFIG_DEST"
         # echo "✔ Symlinked XFCE4 panel config: $PANEL_DEST -> $PANEL_SRC"
     else
-        echo "✖ Panel source not found: $PANEL_SRC"
+        echo -e "\e[31m✖\e[0m Panel source not found: $PANEL_SRC"
     fi
 
     ############################################################
@@ -221,10 +221,10 @@ if confirm "Configure XFCE4 settings?"; then
       "1:net" "2:term" "3:file" "4:[4]" "5:com" \
       "6:vpn" "7:misc" "8:mult" "9:mail" "0:sys"
 
-    echo "✔ XFCE configuration applied"
+    echo -e "\e[32m✔\e[0m XFCE configuration applied"
 
 else
-    echo "✖ Skipping XFCE configuration"
+    echo -e "\e[31m✖\e[0m Skipping XFCE configuration"
 fi
 
-echo "✔ All requested configs applied"
+echo -e "\e[32m✔\e[0m All requested configs applied"
