@@ -222,6 +222,9 @@ if confirm "Configure XFCE4 settings?"; then
       "6:vpn" "7:misc" "8:mult" "9:mail" "0:sys"
 
     echo "✔ XFCE configuration applied"
+
+else
+    echo "✖ Skipping XFCE configuration"
 fi
 
 echo "✔ All requested configs applied"
