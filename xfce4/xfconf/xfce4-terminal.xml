@@ -1,0 +1,16 @@
+<?xml version="1.1" encoding="UTF-8"?>
+
+<channel name="xfce4-terminal" version="1.0">
+  <property name="title-mode" type="string" value="TERMINAL_TITLE_REPLACE"/>
+  <property name="misc-menubar-default" type="bool" value="false"/>
+  <property name="shortcuts-no-menukey" type="bool" value="true"/>
+  <property name="scrolling-unlimited" type="bool" value="true"/>
+  <property name="scrolling-bar" type="string" value="TERMINAL_SCROLLBAR_NONE"/>
+  <property name="misc-cursor-blinks" type="bool" value="true"/>
+  <property name="font-name" type="string" value="JetBrainsMonoNL Nerd Font Mono 12"/>
+  <property name="font-use-system" type="bool" value="false"/>
+  <property name="misc-tab-close-middle-click" type="bool" value="false"/>
+  <property name="misc-middle-click-opens-uri" type="bool" value="true"/>
+  <property name="background-mode" type="string" value="TERMINAL_BACKGROUND_TRANSPARENT"/>
+  <property name="background-darkness" type="double" value="0.84999999999999998"/>
+</channel>
