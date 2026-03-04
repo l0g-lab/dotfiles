@@ -74,7 +74,7 @@ CRYPTOGRAPHY_OPENSSL_NO_LEGACY=1
 
 # autostart tmux
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [[ -z "$TMUX" ]]; then
-  exec tmux
+  exec tmux -u
 fi
 
 # Auto-activate virtualenv if .venv folder exists
