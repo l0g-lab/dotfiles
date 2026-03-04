@@ -227,4 +227,4 @@ else
     echo -e "\e[31m✖\e[0m Skipping XFCE configuration"
 fi
 
-echo -e "\e[32m✔\e[0m All requested configs applied"
+echo -e "\e[32m✔ All requested configs applied ✔\e[0m"
