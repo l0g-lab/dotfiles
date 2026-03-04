@@ -83,10 +83,10 @@ set $tag3 "3:file"
 set $tag4 "4:[4]"
 set $tag5 "5:com"
 set $tag6 "6:vpn"
-set $tag7 "7:irc"
+set $tag7 "7:misc"
 set $tag8 "8:mult"
 set $tag9 "9:mail"
-set $tag10 "10:misc"
+set $tag10 "10:sys"
 
 # switch to workspace
 bindsym $mod+1 workspace $tag1
