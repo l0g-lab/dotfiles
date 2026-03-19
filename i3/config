@@ -140,7 +140,7 @@ mode "resize" {
         bindsym Escape mode "default"
 }
 
-# Window configs
+# Window configs - xprop | grep 'WM_CLASS'
 for_window [class="pavucontrol"] floating enable
 
 bindsym $mod+r mode "resize"
